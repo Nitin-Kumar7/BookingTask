@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookingController;
-  
+ 
 
 /*
 |--------------------------------------------------------------------------
@@ -20,5 +20,19 @@ Route::get('/', function () {
     return redirect()->route('bookings.index');
 });
    
-Route::resource('bookings', BookingController::class);
 
+
+// Create
+Route::get('/bookings/create', [BookingController::class, 'create'])->name('bookings.create');
+Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
+
+// Read
+Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+Route::get('/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
+
+// Update
+Route::get('/bookings/{booking}/edit', [BookingController::class, 'edit'])->name('bookings.edit');
+Route::put('/bookings/{booking}', [BookingController::class, 'update'])->name('bookings.update');
+
+// Delete
+Route::delete('/bookings/{booking}', [BookingController::class, 'destroy'])->name('bookings.destroy');

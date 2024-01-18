@@ -1,10 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use App\Http\Requests\BookingRequest;
 use App\Http\Requests\BookingUpdate;
+use App\Http\Requests\BookingRequest;
+
+
+ 
+ 
 
 use App\Models\Booking;
 
@@ -25,72 +29,73 @@ class BookingController extends Controller
     }
       
  
-    public function store(BookingRequest $request)
+    public function store(Request $request)
     {
-   
-    echo "Tests";
-     
-    //    try {
-    //     // Rule 1: Check if full day is booked for one date, no other type of booking is allowed
-    //     $existingFullDayBooking = Booking::where('booking_date', $request->booking_date)
-    //         ->where('booking_type', 'Full Day')
-    //         ->first();
+        
+          try {
+         
+        
 
-    //     if ($existingFullDayBooking) {
-    //         return redirect()->route('bookings.create')->with('error', 'Full day booking already exists for this date.');
-    //     }
+        // Rule 1: Check if full day is booked for one date, no other type of booking is allowed
+        $existingFullDayBooking = Booking::where('booking_date', $request->booking_date)
+            ->where('booking_type', 'Full Day')
+            ->first();
 
-    //     // Rule 2: If half day is booked, then full day booking is not possible
-    //     if ($request->booking_type == 'Full Day') {
-    //         $existingHalfDayBooking = Booking::where('booking_date', $request->booking_date)
-    //             ->where('booking_type', 'Half Day')
-    //             ->first();
+        if ($existingFullDayBooking) {
+            return redirect()->route('bookings.create')->with('error', 'Full day booking already exists for this date.');
+        }
 
-    //         if ($existingHalfDayBooking) {
-    //             return redirect()->route('bookings.create')->with('error', 'Half day booking already exists for this date.');
-    //         }
-    //     }
+        // Rule 2: If half day is booked, then full day booking is not possible
+        if ($request->booking_type == 'Full Day') {
+            $existingHalfDayBooking = Booking::where('booking_date', $request->booking_date)
+                ->where('booking_type', 'Half Day')
+                ->first();
 
-    //     // Rule 3: If half day booked for Morning, then Morning is not allowed for other booking, vice versa for Evening
-    //     $existingMorningBooking = Booking::where('booking_date', $request->booking_date)
-    //         ->where('booking_slot', 'Morning')
-    //         ->first();
+            if ($existingHalfDayBooking) {
+                return redirect()->route('bookings.create')->with('error', 'Half day booking already exists for this date.');
+            }
+        }
 
-    //     $existingEveningBooking = Booking::where('booking_date', $request->booking_date)
-    //         ->where('booking_slot', 'Evening')
-    //         ->first();
+        // Rule 3: If half day booked for Morning, then Morning is not allowed for other booking, vice versa for Evening
+        $existingMorningBooking = Booking::where('booking_date', $request->booking_date)
+            ->where('booking_slot', 'Morning')
+            ->first();
 
-    //     if ($request->booking_slot == 'Morning' && ($existingMorningBooking || $existingEveningBooking)) {
-    //         return redirect()->route('bookings.create')->with('error', 'Morning slot is not available for booking on this date.');
-    //     }
+        $existingEveningBooking = Booking::where('booking_date', $request->booking_date)
+            ->where('booking_slot', 'Evening')
+            ->first();
 
-    //     if ($request->booking_slot == 'Evening' && ($existingMorningBooking || $existingEveningBooking)) {
-    //         return redirect()->route('bookings.create')->with('error', 'Evening slot is not available for booking on this date.');
-    //     }
+        if ($request->booking_slot == 'Morning' && ($existingMorningBooking || $existingEveningBooking)) {
+            return redirect()->route('bookings.create')->with('error', 'Morning slot is not available for booking on this date.');
+        }
 
-    //     // Rule 4: No duplicate booking is possible in any way
-    //     $existingBooking = Booking::where('name', $request->name)
-    //         ->where('email', $request->email)
-    //         ->where('booking_type', $request->booking_type)
-    //         ->where('booking_date', $request->booking_date)
-    //         ->where('booking_slot', $request->booking_slot)
-    //         ->where('booking_time', $request->booking_time)
-    //         ->first();
+        if ($request->booking_slot == 'Evening' && ($existingMorningBooking || $existingEveningBooking)) {
+            return redirect()->route('bookings.create')->with('error', 'Evening slot is not available for booking on this date.');
+        }
 
-    //     if ($existingBooking) {
-    //         return redirect()->route('bookings.create')->with('error', 'Duplicate booking is not allowed.');
-    //     }
+        // Rule 4: No duplicate booking is possible in any way
+        $existingBooking = Booking::where('name', $request->name)
+            ->where('email', $request->email)
+            ->where('booking_type', $request->booking_type)
+            ->where('booking_date', $request->booking_date)
+            ->where('booking_slot', $request->booking_slot)
+            ->where('booking_time', $request->booking_time)
+            ->first();
 
-    //     // Save the booking if all rules pass
-    //     Booking::create($request->all());
+        if ($existingBooking) {
+            return redirect()->route('bookings.create')->with('error', 'Duplicate booking is not allowed.');
+        }
 
-    //     return redirect()->route('bookings.index')->with('success', 'Booking created successfully.');   
-    // } catch (\Exception $e) {
-    //     // Log the exception for further investigation
-    //     \Log::error('Failed to create booking: ' . $e->getMessage());
+        // Save the booking if all rules pass
+        Booking::create($request->all());
 
-    //     return redirect()->route('bookings.create')->with('error', 'Failed to create booking.');
-    // }
+        return redirect()->route('bookings.index')->with('success', 'Booking created successfully.');   
+      } catch (\Exception $e) {
+        // Log the exception for further investigation
+        \Log::error('Failed to create booking: ' . $e->getMessage());
+
+        return redirect()->route('bookings.create')->with('error', 'Failed to create booking.');
+    }
     }
 
  

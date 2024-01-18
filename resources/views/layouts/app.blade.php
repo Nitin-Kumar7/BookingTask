@@ -33,12 +33,20 @@ https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js
 
 <body  >
     <!-- Body content -->
-
+    <a clsas=" px-2" href="https://github.com/Nitin-Kumar7/BookingTask">code on Github<a>
     <div class="container">
         <div>
             <h2 class="text-info text-center"> BOOKING  </h2>
         </div>
       
+        @if ($errors->any())
+        <script>
+            @foreach ($errors->all() as $error)
+                toastr.error('{{ $error }}');
+            @endforeach
+        </script>
+    @endif
+    
 
         @if(session('success'))
             @if(session('success'))

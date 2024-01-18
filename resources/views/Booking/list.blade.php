@@ -18,6 +18,8 @@
             <thead class=" ">
                 <tr>
                     <th>Booking Name</th>
+                    <th>Booking Type</th>
+                    <th>Booking Slot</th>
                     <th>Booking Date</th>
                     <th>Booking Time</th>
                     <th>Action</th>
@@ -27,6 +29,8 @@
                 @foreach($bookings as $booking)
                 <tr class="border-0">
                     <td>{{ $booking->name }}</td>
+                    <td>{{ $booking->booking_type }}</td>
+                    <td>{{ $booking->booking_slot }}</td>
                     <td>{{ $booking->booking_date }}</td>
                     <td>{{ $booking->booking_time }}</td>
                     <td>
