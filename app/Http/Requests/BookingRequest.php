@@ -29,7 +29,7 @@ class BookingRequest extends FormRequest
             'booking_type' => 'required|in:Full Day,Half Day',
             'booking_date' => 'required|date',
             'booking_slot' => 'required|in:Morning,Evening',
-            'booking_time' => 'required|date_format:H:i',
+            'booking_time' => 'required|date_format:H:i:s',
         ];
     }
 }

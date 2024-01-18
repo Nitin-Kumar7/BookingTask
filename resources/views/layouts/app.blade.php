@@ -38,9 +38,7 @@ https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js
         <div>
             <h2 class="text-info text-center"> BOOKING  </h2>
         </div>
-        @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
+      
 
         @if(session('success'))
             @if(session('success'))

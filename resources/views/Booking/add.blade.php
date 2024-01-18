@@ -3,6 +3,21 @@
 
 @section('content')
  
+@if(session('success'))
+            @if(session('success'))
+                <script>
+                    toastr.success('{{ session('success') }}');
+                </script>
+            @endif
+        @endif
+
+        @if(session('error'))
+            @if(session('error'))
+                <script>
+                    toastr.error('{{ session('error') }}');
+                </script>
+            @endif
+        @endif
 <div class="container contact-form">
 <div class="card-header bg-white border-0 d-flex align-items-center">
             <h4 class="card-title mb-0 flex-grow-1">Add New Booking </h4>
@@ -12,8 +27,9 @@
                 </div>
             </div>
         </div>
-    <form action="{{ route('bookings.store') }}" method="post">
+        <form action="{{ route('bookings.store') }}" method="post">
         @csrf
+
         <div class="row border p-2">
             <div class="col-md-8 offset-2">
                 <div class="row">
