@@ -79,7 +79,7 @@
                      <div class="form-group col-md-6">
                          <label for="booking_time">Booking Time:</label>
                          <input type="time" class="form-control" name="booking_time"
-                             value="{{ old('booking_time', $bookings->booking_time) }}" required>
+                             value="{{ old('booking_time'. ':00', $bookings->booking_time) }}" required>
                          @error('booking_time')
                          <div class="text-danger">{{ $message }}</div>
                          @enderror
