@@ -29,9 +29,9 @@ class BookingController extends Controller
     }
       
  
-    public function store(Request $request)
+    public function store(BookingRequest $request)
     {
-<<<<<<< HEAD
+
         
           try {
          
@@ -158,7 +158,6 @@ class BookingController extends Controller
         // Log the exception for further investigation
         \Log::error('Failed to create booking: ' . $e->getMessage());
 
->>>>>>> a11c98f7fd6c7563d54aa4f131ea3c37609578a1
         return redirect()->route('bookings.create')->with('error', 'Failed to create booking.');
     }
     }
